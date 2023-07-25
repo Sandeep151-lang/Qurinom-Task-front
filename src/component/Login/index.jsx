@@ -3,22 +3,17 @@ import Input from "../../shared/input"
 import { useForm } from "react-hook-form"
 import Button from "../../shared/button"
 import { Link } from "react-router-dom"
-import axios from 'axios'
+import axios from "axios"
 import * as yup from "yup"
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup"
 import { useNavigate } from "react-router-dom"
 
-
-
 const Login = () => {
-
   const router = useNavigate()
-const loginSchema =yup.object({
-        email:yup.string().required("Email is required. "),
-        password: yup.string().required("Password is required. ")
-    })
-
-
+  const loginSchema = yup.object({
+    email: yup.string().required("Email is required. "),
+    password: yup.string().required("Password is required. "),
+  })
 
   const defaultValue = {
     email: undefined,
@@ -36,25 +31,26 @@ const loginSchema =yup.object({
     mode: "onTouched",
     reValidateMode: "onChange",
     defaultValue,
-     resolver:yupResolver(loginSchema)
+    resolver: yupResolver(loginSchema),
   })
 
-
-  const onSubmit =async (values)=>{
-   
-    const payload={
+  const onSubmit = async (values) => {
+    const payload = {
       ...values,
-
     }
     try {
-        const res =await axios.post(`https://qurinom-task.vercel.app/user/login`,payload)
+      const res = await axios.post(
+        `https://qurinom-task.vercel.app/user/login`,
+        payload
+      )
 
-        if(res){
-          alert("Login successfully")
-          localStorage.setItem('token',res?.data?.token)
-          router('/dashboard')
-        reset({...defaultValue})
-        }
+      if (res) {
+        alert("Login successfully")
+        localStorage.setItem("token", res?.data?.token)
+        localStorage.setItem("email", res?.data?.email)
+        router("/dashboard")
+        reset({ ...defaultValue })
+      }
     } catch (error) {
       alert(error?.response?.data?.message)
     }
@@ -78,10 +74,11 @@ const loginSchema =yup.object({
             className=" w-full border border-inherit px-2 py-1"
             rest={register("email")}
             error={errors?.email?.message}
-            values={watch("email")}            
-           onChange={(e)=>{
-            setValue('email',e?.target?.value) 
-            clearErrors('email')}}
+            values={watch("email")}
+            onChange={(e) => {
+              setValue("email", e?.target?.value)
+              clearErrors("email")
+            }}
           />
 
           {/* <PasswordIcon className="absolute top-10 left-2"/> */}
@@ -95,8 +92,10 @@ const loginSchema =yup.object({
             rest={register("password")}
             error={errors?.password?.message}
             values={watch("password")}
-            onChange={(e)=>{ setValue('password',e?.target?.value)
-          clearErrors('password')}}
+            onChange={(e) => {
+              setValue("password", e?.target?.value)
+              clearErrors("password")
+            }}
           />
 
           <div></div>
@@ -105,7 +104,6 @@ const loginSchema =yup.object({
             className="my-5 w-full login-button   rounded-md border-r py-2"
             // onClick={handleSubmit(onSubmit)}
             onClick={handleSubmit(onSubmit)}
-
           />
         </div>
         <p className="float-right font-semibold text-sm ">

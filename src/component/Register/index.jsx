@@ -4,23 +4,24 @@ import { useForm } from "react-hook-form"
 import Button from "../../shared/button"
 import { Link } from "react-router-dom"
 import * as yup from "yup"
-import axios from 'axios'
-import { yupResolver } from '@hookform/resolvers/yup';
+import axios from "axios"
+import { yupResolver } from "@hookform/resolvers/yup"
 import { useNavigate } from "react-router-dom"
-
 
 const Register = () => {
   const router = useNavigate()
 
-  const registerSchema =yup.object({
-    name:yup.string().required("Name is required. "),
-    email:yup.string().required("Email is required. "),
-    phoneNo:yup.string().required("Phone no. is required."),
+  const registerSchema = yup.object({
+    name: yup.string().required("Name is required. "),
+    email: yup.string().required("Email is required. "),
+    phoneNo: yup.string().required("Phone no. is required."),
     password: yup.string().required("Password is required. "),
-    confpassword: yup.string().required('Confirm password is required.').oneOf([yup.ref('password'), null], 'Passwords does not match.'),
-})
+    confpassword: yup
+      .string()
+      .required("Confirm password is required.")
+      .oneOf([yup.ref("password"), null], "Passwords does not match."),
+  })
 
- 
   const {
     register,
     handleSubmit,
@@ -31,25 +32,25 @@ const Register = () => {
   } = useForm({
     mode: "onTouched",
     reValidateMode: "onChange",
-    
-     resolver:yupResolver(registerSchema)
+
+    resolver: yupResolver(registerSchema),
   })
 
-
-  const onSubmit =async (values)=>{
-    console.log(values,"ddd")
-    const payload={
+  const onSubmit = async (values) => {
+    console.log(values, "ddd")
+    const payload = {
       ...values,
     }
     delete payload.confpassword
     try {
-        const res =await axios.post(`https://qurinom-task.vercel.app/user/register`,payload)
-        if(res){
-          alert(res?.data?.message)
-          router("/")
-        
-        
-        }
+      const res = await axios.post(
+        `https://qurinom-task.vercel.app/user/register`,
+        payload
+      )
+      if (res) {
+        alert(res?.data?.message)
+        router("/")
+      }
     } catch (error) {
       console.error(error)
     }
@@ -61,7 +62,6 @@ const Register = () => {
           Register to <span className="text-emerald-600">Qurinom</span>
         </h1>
         <div>
-         
           <Input
             label="Enter Name"
             placeholder="Enter name"
@@ -72,9 +72,10 @@ const Register = () => {
             rest={register("name")}
             error={errors?.name?.message}
             values={watch("name")}
-            onChange={(event)=>{
-              setValue('name',event.target.value)
-            clearErrors('name')}}
+            onChange={(event) => {
+              setValue("name", event.target.value)
+              clearErrors("name")
+            }}
           />
 
           <Input
@@ -87,9 +88,10 @@ const Register = () => {
             rest={register("phoneNo")}
             error={errors?.phoneNo?.message}
             values={watch("phoneNo")}
-            onChange={(event)=>{
-              setValue('phoneNo',event.target.value)
-            clearErrors('phoneNo')}}
+            onChange={(event) => {
+              setValue("phoneNo", event.target.value)
+              clearErrors("phoneNo")
+            }}
           />
 
           <Input
@@ -102,9 +104,10 @@ const Register = () => {
             rest={register("email")}
             error={errors?.email?.message}
             values={watch("email")}
-            onChange={(event)=>{
-              setValue('email',event.target.value)
-            clearErrors('email')}}
+            onChange={(event) => {
+              setValue("email", event.target.value)
+              clearErrors("email")
+            }}
           />
 
           <Input
@@ -117,9 +120,10 @@ const Register = () => {
             rest={register("password")}
             error={errors?.password?.message}
             values={watch("password")}
-            onChange={(event)=>{
-              setValue('password',event.target.value)
-            clearErrors('password')}}
+            onChange={(event) => {
+              setValue("password", event.target.value)
+              clearErrors("password")
+            }}
           />
 
           <Input
@@ -132,9 +136,10 @@ const Register = () => {
             rest={register("confpassword")}
             error={errors?.confpassword?.message}
             values={watch("confpassword")}
-            onChange={(event)=>{
-              setValue('confpassword',event.target.value)
-            clearErrors('confpassword')}}
+            onChange={(event) => {
+              setValue("confpassword", event.target.value)
+              clearErrors("confpassword")
+            }}
           />
 
           <div></div>
