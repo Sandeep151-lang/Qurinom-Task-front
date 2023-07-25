@@ -18,7 +18,7 @@ const Post = ({data}) => {
         register,
         handleSubmit,
         watch,
-        setValue,
+        // setValue,
        
         formState: { errors },
       } = useForm({
